@@ -17,14 +17,8 @@ class Coords(models.Model):
     height = models.IntegerField()
 
 
-# Модель перевала
-class Pereval(models.Model):
-    STATUS_CHOICES = (
-        ("new", 'новый'),
-        ("pending", 'на модерации'),
-        ("accepted", 'модерация успешна'),
-        ("rejected", 'информация не принята'),
-    )
+# модель для уровня сложности
+class Level(models.Model):
     LEVEL_CHOICES = (
         ('1A', '1А'),
         ('1B', '1Б'),
@@ -33,6 +27,22 @@ class Pereval(models.Model):
         ('3A', '3А'),
         ('3B', '3Б'),
     )
+
+    winter = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='1A')
+    summer = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='1A')
+    autumn = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='1A')
+    spring = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='1A')
+
+
+# Модель перевала
+class Pereval(models.Model):
+    STATUS_CHOICES = (
+        ("new", 'новый'),
+        ("pending", 'на модерации'),
+        ("accepted", 'модерация успешна'),
+        ("rejected", 'информация не принята'),
+    )
+
     beauty_title = models.CharField(max_length=255)
     title = models.CharField(max_length=255)
     other_titles = models.CharField(max_length=255)
@@ -41,10 +51,7 @@ class Pereval(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     coord = models.OneToOneField(Coords, on_delete=models.CASCADE)
     status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='new')
-    level_winter = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='1A')
-    level_spring = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='1A')
-    level_summer = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='1A')
-    level_autumn = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='1A')
+    level = models.OneToOneField(Level, on_delete=models.CASCADE)
 
 
 # модель для хранения изображений
