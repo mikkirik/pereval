@@ -3,7 +3,7 @@ from django.db import models
 
 # Своя модель пользователя
 class User(models.Model):
-    email = models.EmailField(unique=True)
+    email = models.EmailField(max_length=100, unique=True)
     phone = models.CharField(max_length=20)
     fam = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
@@ -59,4 +59,4 @@ class Image(models.Model):
     title = models.CharField(max_length=255)
     data = models.ImageField()
     add_time = models.DateTimeField(auto_now_add=True)
-    pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE)
+    pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE, related_name='images')
