@@ -20,18 +20,18 @@ class Coords(models.Model):
 # модель для уровня сложности
 class Level(models.Model):
     LEVEL_CHOICES = (
-        ('1A', '1А'),
-        ('1B', '1Б'),
-        ('2A', '2А'),
-        ('2B', '2Б'),
-        ('3A', '3А'),
-        ('3B', '3Б'),
+        ('1А', '1А'),
+        ('1Б', '1Б'),
+        ('2А', '2А'),
+        ('2Б', '2Б'),
+        ('3А', '3А'),
+        ('3Б', '3Б'),
     )
 
-    winter = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='1A')
-    summer = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='1A')
-    autumn = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='1A')
-    spring = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='1A')
+    winter = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='1А')
+    summer = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='1А')
+    autumn = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='1А')
+    spring = models.CharField(max_length=2, choices=LEVEL_CHOICES, default='1А')
 
 
 # Модель перевала
@@ -49,7 +49,7 @@ class Pereval(models.Model):
     connect = models.TextField()
     add_time = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    coord = models.OneToOneField(Coords, on_delete=models.CASCADE)
+    coords = models.OneToOneField(Coords, on_delete=models.CASCADE)
     status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='new')
     level = models.OneToOneField(Level, on_delete=models.CASCADE)
 
@@ -59,9 +59,4 @@ class Image(models.Model):
     title = models.CharField(max_length=255)
     data = models.ImageField()
     add_time = models.DateTimeField(auto_now_add=True)
-
-
-# промежуточная таблица для связи таблиц перевалов и изображений
-class PerevalImages(models.Model):
     pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE)
-    image = models.ForeignKey(Image, on_delete=models.CASCADE)
