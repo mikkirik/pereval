@@ -1,0 +1,25 @@
+{
+  "beauty_title": "пер. ",
+  "title": "Пхия",
+  "other_titles": "Триев",
+  "connect": "Долины", 
+ 
+  "add_time": "2021-09-22 13:18:13",
+  "user": {"email": "qwerty@mail.ru", 		
+        "fam": "Пупкин",
+	"name": "Василий",
+	"otc": "Иванович",
+        "phone": "+7 555 55 55"}, 
+ 
+   "coords":{
+  "latitude": "45.3842",
+  "longitude": "7.1525",
+  "height": "1200"},
+  
+  "level":{"winter": "1А", 
+  "summer": "1А",
+  "autumn": "1А",
+  "spring": "1А"},
+ 
+   "images": []
+}

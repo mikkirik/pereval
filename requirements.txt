@@ -2,3 +2,4 @@ python-dotenv
 django
 psycopg2
 Pillow
+drf-writable-nested
