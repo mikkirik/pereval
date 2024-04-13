@@ -7,6 +7,7 @@ from .serializers import PerevalSerializer
 class SubmitData(viewsets.ModelViewSet):
     queryset = Pereval.objects.all()
     serializer_class = PerevalSerializer
+    filterset_fields = ["user__email"]
 
     # перепилим функцию create, чтобы ответ был таким, какой нам нужен
     def create(self, request, *args, **kwargs):
