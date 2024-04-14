@@ -61,3 +61,19 @@ class PerevalSerializer(NestedUpdateMixin, serializers.ModelSerializer):
             Image.objects.create(data=data, title=title, pereval=pereval)
 
         return pereval
+
+    # Переопределяем валидацию для доп. проверки на неизменение данных пользователя
+    def validate(self, data):
+        if self.instance is not None:
+            instance_user = self.instance.user
+            data_user = data.get('user')
+            validating_user_fields = [
+                instance_user.email != data_user['email'],
+                instance_user.phone != data_user['phone'],
+                instance_user.fam != data_user['fam'],
+                instance_user.name != data_user['name'],
+                instance_user.otc != data_user['otc'],
+            ]
+            if data_user is not None and any(validating_user_fields):
+                raise serializers.ValidationError('Данные пользователя не могут быть изменены')
+        return data
