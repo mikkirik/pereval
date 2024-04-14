@@ -74,6 +74,6 @@ class PerevalSerializer(NestedUpdateMixin, serializers.ModelSerializer):
                 instance_user.name != user_data['name'],
                 instance_user.otc != user_data['otc'],
             ]
-            if data_user is not None and any(validating_user_fields):
+            if user_data is not None and any(validating_user_fields):
                 raise serializers.ValidationError('Данные пользователя не могут быть изменены')
         return data
