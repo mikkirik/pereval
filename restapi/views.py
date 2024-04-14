@@ -1,6 +1,6 @@
-from rest_framework import viewsets, response, status
-from .models import Pereval
-from .serializers import PerevalSerializer
+from rest_framework import viewsets, response, status, mixins
+from .models import Pereval, User, Coords, Image, Level
+from .serializers import PerevalSerializer, UserSerializer, CoordsSerializer, ImageSerializer, LevelSerializer
 
 
 # вьюсет для отправки пользователем данных о перевале
@@ -30,4 +30,26 @@ class SubmitData(viewsets.ModelViewSet):
                 'status': status.HTTP_500_INTERNAL_SERVER_ERROR,
                 'message': 'Ошибка подключения к базе данных',
                 'id': None,
+            })
+
+    def partial_update(self, request, *args, **kwargs):
+        pereval = self.get_object()
+        # если запись уже не новая
+        if pereval.status != 'new':
+            return response.Response({
+                'state': 0,
+                'message': 'Запись уже ушла на модерацию',
+            })
+        # если прошла проверку на новизну, то обновляем
+        serializer = PerevalSerializer(pereval, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return response.Response({
+               'state': 1,
+               'message': 'Запись успешно обновлена',
+            })
+        else:
+            return response.Response({
+                'state': 0,
+                'message': serializer.errors,
             })

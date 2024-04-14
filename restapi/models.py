@@ -3,7 +3,7 @@ from django.db import models
 
 # Своя модель пользователя
 class User(models.Model):
-    email = models.EmailField(max_length=100, unique=True)
+    email = models.EmailField(max_length=100)
     phone = models.CharField(max_length=20)
     fam = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
