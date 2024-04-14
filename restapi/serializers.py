@@ -9,6 +9,23 @@ class UserSerializer(UniqueFieldsMixin, serializers.ModelSerializer):
         model = User
         fields = ['email', 'fam', 'name', 'otc', 'phone']
 
+    # переопределим save для соблюдения уникальности пользователя, т.к. с unique=True в модели не работал PATCH
+    def save(self, **kwargs):
+        self.is_valid()
+        user = User.objects.filter(email=self.validated_data.get('email'))
+        if user.exists():
+            return user.first()
+        else:
+            new_user = User.objects.create(
+                email=self.validated_data.get('email'),
+                phone=self.validated_data.get('phone'),
+                fam=self.validated_data.get('fam'),
+                name=self.validated_data.get('name'),
+                otc=self.validated_data.get('otc'),
+
+            )
+            return new_user
+
 
 # сериализатор координат
 class CoordsSerializer(serializers.ModelSerializer):
