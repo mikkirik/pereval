@@ -1,6 +1,6 @@
-from rest_framework import viewsets, response, status, mixins
-from .models import Pereval, User, Coords, Image, Level
-from .serializers import PerevalSerializer, UserSerializer, CoordsSerializer, ImageSerializer, LevelSerializer
+from rest_framework import viewsets, response, status
+from .models import Pereval
+from .serializers import PerevalSerializer
 
 
 # вьюсет для отправки пользователем данных о перевале
