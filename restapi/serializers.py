@@ -79,6 +79,39 @@ class PerevalSerializer(NestedUpdateMixin, serializers.ModelSerializer):
 
         return pereval
 
+    # переопределяем update, т.к. при обновлении записи создавались новые сущности для координат и уровня сложности
+    def update(self, instance, validated_data):
+        # Обновление собственных полей сущности
+        instance.beauty_title = validated_data.get('beauty_title', instance.beauty_title)
+        instance.title = validated_data.get('title', instance.title)
+        instance.other_titles = validated_data.get('other_titles', instance.other_titles)
+        instance.connect = validated_data.get('connect', instance.connect)
+        instance.add_time = validated_data.get('add_time', instance.add_time)
+        instance.status = validated_data.get('status', instance.status)
+
+        # Обновление связанных полей level
+        level_data = validated_data.get('level', {})
+        instance.level.summer = level_data.get('summer', instance.level.summer)
+        instance.level.autumn = level_data.get('autumn', instance.level.autumn)
+        instance.level.winter = level_data.get('winter', instance.level.winter)
+        instance.level.spring = level_data.get('spring', instance.level.spring)
+        instance.level.save()
+
+        # Обновление связанных полей coords
+        coords_data = validated_data.get('coords', {})
+        instance.coords.latitude = coords_data.get('latitude', instance.coords.latitude)
+        instance.coords.longitude = coords_data.get('longitude', instance.coords.longitude)
+        instance.coords.height = coords_data.get('height', instance.coords.height)
+        instance.coords.save()
+
+        # Пользователя беру существующего
+        user_data = validated_data.get('user', {})
+        user = User.objects.get(**user_data)
+        instance.user = user
+
+        instance.save()
+        return instance
+
     # Переопределяем валидацию для доп. проверки на неизменение данных пользователя
     def validate(self, data):
         if self.instance is not None:
