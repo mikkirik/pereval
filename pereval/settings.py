@@ -138,8 +138,8 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Django5 Test Swagger API',
-    'DESCRIPTION': 'Django5 Test Swagger API description',
+    'TITLE': 'База горных перевалов ФСТР',
+    'DESCRIPTION': 'REST API для базы горных перевалов ФСТР России',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
 }
